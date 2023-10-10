@@ -55,9 +55,12 @@ def order(driver):
     # 运动时间
     time_now = datetime.now()
     current_time = (time_now + timedelta(days=7)).strftime("%Y-%m-%d")
-    select_date = driver.find_element(By.ID, f'tab-{current_time}')
-    select_date.click()
 
+    try:
+        select_date = driver.find_element(By.ID, f'tab-{current_time}')
+        select_date.click()
+    except:
+        return False
     time.sleep(1)
 
     # 场地选择   //*[@id="apointmentDetails"]/div[2]/div[2]/div[2]/div/div[1]/div[1]/div/div[1]/div[10]/div[1]/div/div/img
@@ -88,4 +91,6 @@ def order(driver):
         try:
             order = driver.find_element(By.XPATH, '//*[@id="apointmentDetails"]/div[2]/div[2]/div[2]/div/div[1]/div[2]/div[3]/button')
         except:
-            break
+            return True
+    
+    return False

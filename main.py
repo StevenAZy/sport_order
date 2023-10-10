@@ -10,6 +10,10 @@ if __name__ == '__main__':
     while True:
         res = login(driver, path)
         if res:
-            order(driver)
+            order_res = order(driver)
+            if order_res:
+                break
+            else:
+                time.sleep(1)
         else:
             time.sleep(1)
