@@ -37,16 +37,14 @@ def login(driver, path):
     try:
         submit = driver.find_element(By.ID, 'submit-button')
     except:
+        time.sleep(1)
+        huoyingdong = driver.find_element(By.XPATH, '//*[@id="app"]/div[2]/div[2]/div[4]/ul/li[1]/div/div/div[1]/img')
+        huoyingdong.click()
         return True
     
     return False
 
 def order(driver):
-    # 体育馆选择
-    time.sleep(1)
-    huoyingdong = driver.find_element(By.XPATH, '//*[@id="app"]/div[2]/div[2]/div[4]/ul/li[6]/div/div/div[1]/img')
-    huoyingdong.click()
-
     time.sleep(1)
     # 运动类型（羽毛球，篮球）
     # sport_type = driver.find_element(By.ID, 'tab-561d43a3-338e-4834-b35f-747bdc578366')
@@ -58,9 +56,11 @@ def order(driver):
 
     try:
         select_date = driver.find_element(By.ID, f'tab-{current_time}')
-        select_date.click()
     except:
+        driver.refresh()
+        print('该时间暂未开放！')
         return False
+    select_date.click()
     time.sleep(1)
 
     # 场地选择   //*[@id="apointmentDetails"]/div[2]/div[2]/div[2]/div/div[1]/div[1]/div/div[1]/div[10]/div[1]/div/div/img
@@ -68,10 +68,15 @@ def order(driver):
     p = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     for x in p:
-        for y in t:  
-            ele_xpath = f'//*[@id="apointmentDetails"]/div[2]/div[2]/div[2]/div/div[1]/div[1]/div/div[1]/div[{y}]/div[{x}]/div/div/img'
-            place = driver.find_element(By.XPATH, ele_xpath)
-            place.click()
+        for y in t:
+            try:  
+                ele_xpath = f'//*[@id="apointmentDetails"]/div[2]/div[2]/div[2]/div/div[1]/div[1]/div/div[1]/div[{y}]/div[{x}]/div/div/img'
+                place = driver.find_element(By.XPATH, ele_xpath)
+                place.click()
+                time.sleep(0.5)
+            except:
+                driver.refresh()
+                continue
 
         order = driver.find_element(By.XPATH, '//*[@id="apointmentDetails"]/div[2]/div[2]/div[2]/div/div[1]/div[2]/div[3]/button')
         order.click()
@@ -91,6 +96,7 @@ def order(driver):
         try:
             order = driver.find_element(By.XPATH, '//*[@id="apointmentDetails"]/div[2]/div[2]/div[2]/div/div[1]/div[2]/div[3]/button')
         except:
+            print('预定成功')
             return True
     
     return False
