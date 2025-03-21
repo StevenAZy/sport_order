@@ -12,15 +12,15 @@ def login(driver, path):
     login_button = driver.find_element(By.CLASS_NAME, 'el-button.el-button--primary')
     login_button.click()
 
-    user = driver.find_element(By.ID, 'user')
+    user = driver.find_element(By.ID, 'input-login-user')
     user.click()
     user.send_keys(user_text)
 
-    passwd = driver.find_element(By.ID, 'pass')
+    passwd = driver.find_element(By.ID, 'input-login-pass')
     passwd.click()
     passwd.send_keys(passwd_text)
 
-    captcha = driver.find_element(By.ID, 'captcha')
+    captcha = driver.find_element(By.ID, 'input-login-captcha')
     captcha_img = driver.find_element(By.ID, 'captcha-img')
     captcha_res = captcha_extract(captcha_img.screenshot_as_base64)
     captcha_text = ''
@@ -31,14 +31,14 @@ def login(driver, path):
     captcha.click()
     captcha.send_keys(captcha_text)
 
-    submit = driver.find_element(By.ID, 'submit-button')
+    submit = driver.find_element(By.ID, 'submit-password-button')
     submit.click()
+    time.sleep(1)
     
     try:
-        submit = driver.find_element(By.ID, 'submit-button')
+        submit = driver.find_element(By.ID, 'submit-password-button')
     except:
-        time.sleep(1)
-        huoyingdong = driver.find_element(By.XPATH, '//*[@id="app"]/div[2]/div[2]/div[4]/ul/li[1]/div/div/div[1]/img')
+        huoyingdong = driver.find_element(By.XPATH, '//*[@id="app"]/div[2]/div[2]/div[4]/ul/li[2]/div/div/div[1]/img')
         huoyingdong.click()
         return True
     
